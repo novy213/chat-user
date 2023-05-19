@@ -14,14 +14,185 @@ namespace chat
     public class Api
     {
         private const string HEADER_AUTHORIZATION = "Authorization";
-        private const string API_ENDPOINT_LOGOUT = "chat/";
-        private const string API_ENDPOINT_LOGIN = "chat/";
+        private const string API_ENDPOINT_LOGOUT = "/chat";
+        private const string API_ENDPOINT_LOGIN = "/chat";
+        private const string API_ENDPOINT_REGISTER = "/chat/register";
+        private const string API_ENDPOINT_GET_USERS = "/chat/user";
+        private const string API_ENDPOINT_RECIVE_MESSAGE = "/chat/message";
+        private const string API_ENDPOINT_SEND_MESSAGE = "/chat/message";
+        private const string API_ENDPOINT_GET_ALL_USERS = "/chat";
 
         private const int HTTP_STATUS_OK = 200;
         private const int HTTP_STATUS_UNAUTHORIZED = 401;
 
         private static String Message;
+        public static async Task<GetUsersResponse> GetAllUsersAsync()
+        {
+            GetUsersResponse response;
+            HttpRequest req = Unirest.get(Settings.Default.url + API_ENDPOINT_GET_ALL_USERS);
+            try
+            {
+                HttpResponse<String> rawResponse = await MakeRequestAsync(req);
+                if (rawResponse == null)
+                {
+                    response = new GetUsersResponse
+                    {
+                        Error = true,
+                        Message = Message
+                    };
+                }
+                else
+                {
+                    response = JsonConvert.DeserializeObject<GetUsersResponse>(rawResponse.Body);
+                }
 
+            }
+            catch (Exception)
+            {
+                response = new GetUsersResponse
+                {
+                    Error = true,
+                    Message = "Unable to deserialize response from remote server"
+                };
+            }
+            return response;
+        }
+        public static async Task<APIResponse> SendMessageAsync(int User_to, string Message)
+        {
+            APIResponse response;
+            SendMessageRequest body = new SendMessageRequest
+            {
+                Message = Message,
+            };
+            HttpRequest req = Unirest.post(Settings.Default.url + API_ENDPOINT_SEND_MESSAGE + "/" + User_to).body<SendMessageRequest>(body);
+            try
+            {
+                HttpResponse<String> rawResponse = await MakeRequestAsync(req);
+                if (rawResponse == null)
+                {
+                    response = new APIResponse
+                    {
+                        Error = true,
+                        Message = Message
+                    };
+                }
+                else
+                {
+                    response = JsonConvert.DeserializeObject<APIResponse>(rawResponse.Body);
+                }
+
+            }
+            catch (Exception)
+            {
+                response = new APIResponse
+                {
+                    Error = true,
+                    Message = "Unable to deserialize response from remote server"
+                };
+            }
+            return response;
+        }
+        public static async Task<ReciveMessageResponse> ReciveMessageAsync(int User_from)
+        {
+            ReciveMessageResponse response;
+            HttpRequest req = Unirest.get(Settings.Default.url + API_ENDPOINT_RECIVE_MESSAGE + "/" + User_from);
+            try
+            {
+                HttpResponse<String> rawResponse = await MakeRequestAsync(req);
+                if (rawResponse == null)
+                {
+                    response = new ReciveMessageResponse
+                    {
+                        Error = true,
+                        Message = Message
+                    };
+                }
+                else
+                {
+                    response = JsonConvert.DeserializeObject<ReciveMessageResponse>(rawResponse.Body);
+                }
+
+            }
+            catch (Exception)
+            {
+                response = new ReciveMessageResponse
+                {
+                    Error = true,
+                    Message = "Unable to deserialize response from remote server"
+                };
+            }
+            return response;
+        }
+        public static async Task<GetUsersResponse> GetUsersAsync()
+        {
+            GetUsersResponse response;
+            HttpRequest req = Unirest.get(Settings.Default.url + API_ENDPOINT_GET_USERS);
+            try
+            {
+                HttpResponse<String> rawResponse = await MakeRequestAsync(req);
+                if (rawResponse == null)
+                {
+                    response = new GetUsersResponse
+                    {
+                        Error = true,
+                        Message = Message
+                    };
+                }
+                else
+                {
+                    response = JsonConvert.DeserializeObject<GetUsersResponse>(rawResponse.Body);
+                }
+
+            }
+            catch (Exception)
+            {
+                response = new GetUsersResponse
+                {
+                    Error = true,
+                    Message = "Unable to deserialize response from remote server"
+                };
+            }
+            return response;
+        }
+
+        public static async Task<APIResponse> RegisterAsync(string Login, string Password, string Name, string Last_name)
+        {
+            APIResponse response;
+            RegisterRequest request = new RegisterRequest
+            {
+                Login = Login,
+                Password = Password,
+                Name = Name,
+                Last_name = Last_name
+            };
+            HttpRequest req = Unirest.post(Settings.Default.url + API_ENDPOINT_REGISTER).body<RegisterRequest>(request);
+            try
+            {
+                HttpResponse<String> rawResponse = await MakeRequestAsync(req);
+                if (rawResponse == null)
+                {
+                    response = new APIResponse
+                    {
+                        Error = true,
+                        Message = Message
+                    };
+                }
+                else
+                {
+                    response = JsonConvert.DeserializeObject<APIResponse>(rawResponse.Body);
+                }
+
+            }
+            catch (Exception)
+            {
+                response = new APIResponse
+                {
+                    Error = true,
+                    Message = "Unable to deserialize response from remote server"
+                };
+            }
+            return response;
+        }
         public static async Task<LoginResponse> LoginAsync(string Login, string Password)
         {
             LoginResponse response;

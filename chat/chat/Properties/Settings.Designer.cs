@@ -25,7 +25,7 @@ namespace chat.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost/basic/web")]
         public string url {
             get {
                 return ((string)(this["url"]));
