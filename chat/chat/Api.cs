@@ -14,13 +14,13 @@ namespace chat
     public class Api
     {
         private const string HEADER_AUTHORIZATION = "Authorization";
-        private const string API_ENDPOINT_LOGOUT = "/chat";
-        private const string API_ENDPOINT_LOGIN = "/chat";
-        private const string API_ENDPOINT_REGISTER = "/chat/register";
-        private const string API_ENDPOINT_GET_USERS = "/chat/user";
-        private const string API_ENDPOINT_RECIVE_MESSAGE = "/chat/message";
-        private const string API_ENDPOINT_SEND_MESSAGE = "/chat/message";
-        private const string API_ENDPOINT_GET_ALL_USERS = "/chat";
+        private const string API_ENDPOINT_LOGOUT = "/";
+        private const string API_ENDPOINT_LOGIN = "/";
+        private const string API_ENDPOINT_REGISTER = "/register";
+        private const string API_ENDPOINT_GET_USERS = "/user";
+        private const string API_ENDPOINT_RECIVE_MESSAGE = "/message";
+        private const string API_ENDPOINT_SEND_MESSAGE = "/message";
+        private const string API_ENDPOINT_GET_ALL_USERS = "/";
 
         private const int HTTP_STATUS_OK = 200;
         private const int HTTP_STATUS_UNAUTHORIZED = 401;

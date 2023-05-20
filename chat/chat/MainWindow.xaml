@@ -152,7 +152,7 @@
             <Button Style="{DynamicResource ButtonStyle1}" FontSize="16" Foreground="White" Background="SteelBlue" Content="Back" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120" Height="40" Margin="10 0" Click="BackRegister_click"/>
             <Button IsDefault="True" Style="{DynamicResource ButtonStyle1}" FontSize="16" Foreground="White" Background="SteelBlue" Content="Register" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120" Height="40" Margin="10 0" Click="Register_click"/>
         </Grid>
-        <Grid x:Name="UsersGrid" Visibility="Visible">
+        <Grid x:Name="UsersGrid" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -169,6 +169,7 @@
             <ListView x:Name="UsersListView" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="4" Margin="10" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="UsersListView_SelectionChanged">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter Event="MouseLeftButtonUp" Handler="ListViewItem_Click"/>
                         <Setter Property="Foreground" Value="Black"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
@@ -193,7 +194,7 @@
                 </ListView.View>
             </ListView>
         </Grid>
-        <Grid x:Name="ChatGrid" Visibility="Collapsed">
+        <Grid x:Name="ChatGrid" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
@@ -221,18 +222,18 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="100">
+                        <GridViewColumn Width="660">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding MessageText}" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding MessageText}" HorizontalAlignment="Left"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <TextBox x:Name="MessageSend" Grid.ColumnSpan="2" Grid.Row="3" Margin="5 5 100 5"/>
-            <Button Click="SendButton_click" Content="Send" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="80" Height="40" Style="{DynamicResource ButtonStyle1}" FontSize="16" Foreground="White" Background="SteelBlue" Margin="10 0"/>
+            <TextBox x:Name="MessageSend" Grid.ColumnSpan="2" Grid.Row="3" Margin="10 5 100 5"/>
+            <Button IsDefault="True" Click="SendButton_click" Content="Send" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Width="80" Height="40" Style="{DynamicResource ButtonStyle1}" FontSize="16" Foreground="White" Background="SteelBlue" Margin="10 0"/>
         </Grid>
     </Grid>
 </Window>

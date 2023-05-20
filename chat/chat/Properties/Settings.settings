@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://localhost/basic/web</Value>
+      <Value Profile="(Default)">https://api.jakubsolarek.pl/chat/chat-server/basic/web</Value>
     </Setting>
     <Setting Name="accessToken" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

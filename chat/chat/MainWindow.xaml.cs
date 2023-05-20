@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace chat
 {
@@ -29,12 +30,12 @@ namespace chat
         public MainWindow()
         {
             InitializeComponent();
-            refreshTherad = new Thread(RefreshApp);
             if (Settings.Default.accessToken != "") SetAppStateLogin();
             else SetAppStateLogout();
         }
         public async void SetAppStateLogin()
         {
+            refreshTherad = new Thread(RefreshApp);
             refreshTherad.Start();
             LoginGrid.Visibility = Visibility.Collapsed;
             UsersGrid.Visibility = Visibility.Visible;
@@ -96,12 +97,12 @@ namespace chat
         {
             if (e.AddedItems.Count > 0)
             {
-                User selectedItem = e.AddedItems[0] as User;
+                /*User selectedItem = e.AddedItems[0] as User;
                 ReciveMessageResponse res = await Api.ReciveMessageAsync(selectedItem.Id);
                 UsersGrid.Visibility = Visibility.Collapsed;
                 ChatGrid.Visibility = Visibility.Visible;
                 ChatListView.ItemsSource = res.Messages;
-                UserWithChat = selectedItem;                
+                UserWithChat = selectedItem;  */              
             }
         }
 
@@ -113,14 +114,17 @@ namespace chat
             ChatListView.ItemsSource = null;
             GetUsersResponse res = await Api.GetUsersAsync();
             UsersListView.ItemsSource = res.Users;
+            MessageSend.Text = "";
         }
 
         private async void SendButton_click(object sender, RoutedEventArgs e)
         {
             APIResponse res = await Api.SendMessageAsync(UserWithChat.Id, MessageSend.Text);
             ReciveMessageResponse res2 = await Api.ReciveMessageAsync(UserWithChat.Id);
-            MessageSend.Text = null;
+            MessageSend.Text = "";
             ChatListView.ItemsSource = res2.Messages;
+            ChatListView.SelectedIndex = ChatListView.Items.Count - 1;
+            ChatListView.ScrollIntoView(ChatListView.SelectedItem);
         }
 
         private async void CreateChat_click(object sender, RoutedEventArgs e)
@@ -177,6 +181,20 @@ namespace chat
                 thread.Interrupt();
                 thread.Join();
             }
+        }
+
+        private async void ListViewItem_Click(object sender, MouseButtonEventArgs e)
+        {
+            var clickedItem = (ListViewItem)sender;
+            var data = clickedItem.Content;
+            User selectedItem = data as User;
+            ReciveMessageResponse res = await Api.ReciveMessageAsync(selectedItem.Id);
+            UsersGrid.Visibility = Visibility.Collapsed;
+            ChatGrid.Visibility = Visibility.Visible;
+            ChatListView.ItemsSource = res.Messages;
+            UserWithChat = selectedItem;
+            ChatListView.SelectedIndex = ChatListView.Items.Count - 1;
+            ChatListView.ScrollIntoView(ChatListView.SelectedItem);
         }
     }
 }
