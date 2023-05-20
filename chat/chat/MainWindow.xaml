@@ -194,7 +194,7 @@
                 </ListView.View>
             </ListView>
         </Grid>
-        <Grid x:Name="ChatGrid" Visibility="Visible">
+        <Grid x:Name="ChatGrid" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
